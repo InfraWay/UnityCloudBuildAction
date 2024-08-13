@@ -131,16 +131,17 @@ def get_build_targetname(primary_build_target,branch_and_label):
 		raise Exception(f"get_build_target_name() requires branch_and_label")
 
 	#	sanitise label for unity cloud build's restrictions
-	target_name = branch_and_label.label
+	target_name = primary_build_target
+    # target_name = "branch_and_label.label"
 	# replace any special chars and ensure length is max of 56 chars
 	# 64 is the limit, but we allow some free chars for platform
 	# todo: just do 64-(prefix-length)
-	target_name = re.sub("[^0-9a-zA-Z]+", "-", target_name)
-	target_name = f"{primary_build_target}-{target_name}"
+	# target_name = re.sub("[^0-9a-zA-Z]+", "-", target_name)
+	# target_name = f"{primary_build_target}-{target_name}"
 	# 64 char limit for targets (citation needed)
-	target_name = target_name[:63]
+	# target_name = target_name[:63]
 	# targets must be lower case
-	target_name = target_name.lower()
+	# target_name = target_name.lower()
 	
 	return target_name
 	
