@@ -304,6 +304,7 @@ class UnityCloudBuilder:
     def __init__(
         self,
         client: UnityCloudClient,
+        org_id: str,
         project_id: str,
         primary_build_target: str,
         branch_and_label: BranchAndLabel
@@ -317,6 +318,8 @@ class UnityCloudBuilder:
         if not branch_and_label:
             raise Exception(f"Missing branch_and_label. required")
 
+        self.api_base_url = "https://build-api.cloud.unity3d.com/api/v1"
+        self.org_id = org_id.lower()
         self.project_id = project_id
         self.primary_build_target = primary_build_target
         self.branch_and_label = branch_and_label
@@ -629,6 +632,7 @@ def main(
 
     builder: UnityCloudBuilder = UnityCloudBuilder(
         client,
+        org_id,
         project_id,
         primary_build_target,
         branch_and_label
