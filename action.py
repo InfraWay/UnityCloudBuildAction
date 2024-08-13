@@ -412,13 +412,17 @@ class UnityCloudBuilder:
         # means that our generated name already exists, we want to catch & reuse that
         #	gr: the new version of the code should probably fail here, as we should have already checked if it exists
         success_codes = [201,500]
+
+        # create a new env for the specified build target
+        self.set_build_target_env_var( build_target_name, "buildProfile", self.primary_build_target )
+       
         new_target_meta = self.client.post_request(f"/projects/{self.project_id}/buildtargets", payload, success_codes )
         
         print(f"new_target_meta = {new_target_meta}")
         if new_target_meta["post_request_response_status_code"] == 500:
             error = new_target_meta["error"]
             if error == "Build target name already in use for this project!":
-                logger.info(f"Build target for this branch already exists: {new_target_name}. Re-using...")
+                logger.info(f"Build target for this branch already exists: {build_target_name}. Re-using...")
             else:
                 raise Exception(f"New target had error: {error}")
 
@@ -668,7 +672,7 @@ def main(
        build_meta = builder.get_build_target_meta( allow_new_target )
        
        # create a new env for the specified build target
-       builder_env = builder.set_build_target_env_var(build_target_name, "buildProfile", "Release")
+    #    builder_env = builder.set_build_target_env_var(build_target_name, "buildProfile", "Release")
 
        # create a new build for the specified build target
        build_number = builder.start_build(build_target_name)
