@@ -1,51 +1,55 @@
-name: 'Run Unity Cloud Build'
-author: 'Condense <hello@condense.live>'
-description: 'Runs relevant build via Unity Cloud Build'
+name: "Run Unity Cloud Build"
+author: "Condense <hello@condense.live>"
+description: "Runs relevant build via Unity Cloud Build"
 inputs:
   unity_cloud_build_api_key:
-    description: 'Unity Cloud Build API key'
+    description: "Unity Cloud Build API key"
     required: true
   unity_cloud_build_org_id:
-    description: 'Unity Cloud Build Org ID'
+    description: "Unity Cloud Build Org ID"
     required: true
   unity_cloud_build_project_id:
-    description: 'Unity Cloud Build Project ID'
+    description: "Unity Cloud Build Project ID"
     required: true
   unity_cloud_build_polling_interval:
-    description: 'Interval to poll Unity Cloud Build'
+    description: "Interval to poll Unity Cloud Build"
     required: false
-    default: '60'
+    default: "60"
   unity_cloud_build_primary_target:
-    description: 'Unity Cloud Build Primary Target ID'
+    description: "Unity Cloud Build Primary Target ID"
+    required: true
+  unity_cloud_build_profile_env:
+    description: "Unity Cloud buildProfile environment variable"
     required: true
   unity_cloud_build_download_binary:
-    description: 'Download the build binary to env.ARTIFACT_FILEPATH'
+    description: "Download the build binary to env.ARTIFACT_FILEPATH"
     required: false
   unity_cloud_build_create_share:
-    description: 'Create a sharing url in UnityCloudBuild and output to env.SHARE_URL'
+    description: "Create a sharing url in UnityCloudBuild and output to env.SHARE_URL"
     required: false
   unity_cloud_build_use_existing_build_number:
-    description: 'Force the process to use an existing build number instead of starting a new build'
+    description: "Force the process to use an existing build number instead of starting a new build"
     required: false
   unity_cloud_build_github_branch_ref:
-    description: 'github branch reference to build (github.ref). This will create new build targets if the branch differs from the default target, to support pull requests and tags'
+    description: "github branch reference to build (github.ref). This will create new build targets if the branch differs from the default target, to support pull requests and tags"
     required: true
   unity_cloud_build_github_head_ref:
-    description: 'github.head_ref; only on pull requests and is the source branch; https://docs.github.com/en/actions/learn-github-actions/contexts'
+    description: "github.head_ref; only on pull requests and is the source branch; https://docs.github.com/en/actions/learn-github-actions/contexts"
     required: false
   unity_cloud_build_allow_new_target:
-    description: 'Set this to false to disable creation of new build targets/configurations based on the primary target.'
+    description: "Set this to false to disable creation of new build targets/configurations based on the primary target."
     required: false
-    
+
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: "docker"
+  image: "Dockerfile"
   env:
     UNITY_CLOUD_BUILD_API_KEY: ${{ inputs.unity_cloud_build_api_key }}
     UNITY_CLOUD_BUILD_ORG_ID: ${{ inputs.unity_cloud_build_org_id }}
     UNITY_CLOUD_BUILD_PROJECT_ID: ${{ inputs.unity_cloud_build_project_id }}
     UNITY_CLOUD_BUILD_POLLING_INTERVAL: ${{ inputs.unity_cloud_build_polling_interval }}
     UNITY_CLOUD_BUILD_PRIMARY_TARGET: ${{ inputs.unity_cloud_build_primary_target }}
+    UNITY_CLOUD_BUILD_PROFILE_ENV: ${{ inputs.unity_cloud_build_profile_env }}
     UNITY_CLOUD_BUILD_DOWNLOAD_BINARY: ${{ inputs.unity_cloud_build_download_binary }}
     UNITY_CLOUD_BUILD_CREATE_SHARE: ${{ inputs.unity_cloud_build_create_share }}
     UNITY_CLOUD_BUILD_USE_EXISTING_BUILD_NUMBER: ${{ inputs.unity_cloud_build_use_existing_build_number }}

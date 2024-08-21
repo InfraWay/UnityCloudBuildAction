@@ -537,6 +537,7 @@ def wait_for_successfull_build(client: UnityCloudClient, project_id:str, build_t
 @click.option("--org_id", envvar="UNITY_CLOUD_BUILD_ORG_ID", type=str)
 @click.option("--project_id", envvar="UNITY_CLOUD_BUILD_PROJECT_ID", type=str)
 @click.option("--primary_build_target", envvar="UNITY_CLOUD_BUILD_PRIMARY_TARGET", type=str)
+@click.option("--build_profile", envvar="UNITY_CLOUD_BUILD_PROFILE_ENV", type=str)
 @click.option(
     "--polling_interval",
     envvar="UNITY_CLOUD_BUILD_POLLING_INTERVAL",
@@ -569,6 +570,7 @@ def main(
     org_id: str,
     project_id: str,
     primary_build_target: str,
+    build_profile: str,
     polling_interval: float,
     download_binary: bool,
     github_branch_ref: str,
@@ -668,7 +670,7 @@ def main(
        build_meta = builder.get_build_target_meta( allow_new_target )
        
        # create a new env for the specified build target
-       builder_env = builder.set_build_target_env_var(build_target_name, "buildProfile", "Release")
+       builder_env = builder.set_build_target_env_var(build_target_name, "buildProfile", build_profile)
 
        # create a new build for the specified build target
        build_number = builder.start_build(build_target_name)
